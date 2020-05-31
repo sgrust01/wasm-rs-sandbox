@@ -11,6 +11,13 @@ extern "C" {
     fn log(s: &str);
 }
 
+
+#[wasm_bindgen(module = "/drive.js")]
+extern "C" {
+    #[wasm_bindgen(catch)]
+    fn user_home() -> Result<String, JsValue>;
+}
+
 #[wasm_bindgen]
 pub fn helloworld() {
     panic::set_hook(Box::new(console_error_panic_hook::hook));
@@ -18,5 +25,8 @@ pub fn helloworld() {
     femme::start(log::LevelFilter::Trace).unwrap();
     info!("Using Rust log");
     warn!("Still using Rust log");
-    panic!("something..");
+    let home = user_home();
+    let msg = format!("$ Home x = {:#?}", home);
+    info!("{}", msg.as_str());
+    // panic!("something..");
 }

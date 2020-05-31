@@ -12,6 +12,9 @@ module.exports = (env, args) => {
             path: path.resolve(__dirname, 'dist'),
             filename: isProductionMode ? '[name].[contenthash].js' : '[name].[hash].js',
         },
+        node: {
+            fs: 'empty'
+        },
         plugins: [
             new WasmPackPlugin({
                 crateDirectory: path.resolve(__dirname, '.')
